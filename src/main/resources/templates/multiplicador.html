@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title th:text="${titulo}">Insert title here</title>
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/jquery-ui.css">
+<script src="./js/jquery-3.3.1.js"></script>
+</head>
+<body>
+	<h1 th:text="${titulo}"></h1>
+	<form>
+	<input type="hidden" id="resultadoMultiplicacion" name="resultadoMultiplicacion">
+		<div>
+			<input type="text" id="factor" name="factor"> 
+			<label> X </label>
+			<input type="text" id="producto" name="producto"> 
+			<label> =
+			</label> <input type="text" id="resultado" name="resultado">
+		</div>
+		<div>
+			<input type="text" id="usuario" name="usuario" placeholder="Usuario:"> <label>
+				:: </label> <input type="text" id="identificador" name="identificador">
+		</div>
+
+		<div>
+			<div>
+				<label>Resultado</label>
+
+			</div>
+			<input type="text" id="estatus" name="estatus">
+		</div>
+
+		<button type="button" id="btn-submit" class="btn btn-primary"
+			onclick="ResultadoMultiplicacion();">Enviar</button>
+	</form>
+</body>
+<script type="text/javascript">
+	$(document).ready(function() {
+		SeriesMultiplicar();
+		$("#factor").attr("disabled", true);
+		$("#producto").attr("disabled", true);
+		$("#usuario").attr("disabled", true);
+
+	});
+	function SeriesMultiplicar() {
+		$.ajax({
+			type : "GET",
+			url : "http://localhost:8081/api/multiplicador",
+			data : {},
+			success : function(data) {
+				console.log(data);
+				$("#factor").val(data.factor);
+				$("#producto").val(data.producto);
+				$("#resultadoMultiplicacion").val(data.resultado);	
+				
+			},
+			error : function(jqXHR, estado, error) {
+				console.log(estado);
+				console.log(error);
+
+			},
+			async : true,
+			cache : false,
+			timeout: 10000
+		});
+	}
+
+	function estatusRespuesta(){	
+		var resultadoMultiplicacion = document.getElementById("resultadoMultiplicacion").value;
+		var resultado = document.getElementById("resultado").value;
+		
+		if(resultadoMultiplicacion === resultado){
+			return "CORRECTO";
+		}
+		return "ERRONEO";	
+	}
+	function ResultadoMultiplicacion() {
+		var nombre;
+		var respuesta;
+		var estatus;
+		var datos = {
+			nombre : document.getElementById("identificador").value,
+			resultado:{respuesta : document.getElementById("resultado").value,
+			estatus : estatusRespuesta()}
+		};
+		$.ajax({
+			type : "POST",
+			contentType : "application/json",
+			//dataType : 'json',
+			url : "http://localhost:8081/api/multiplicador/resultado",
+			data : JSON.stringify(datos),
+			success : function(response) {
+				console.log(response);
+				$("#estatus").css("background-color", "yellow");
+
+			},
+			error : function(response) {
+				$("#estatus").css("background-color", "pink");
+			},
+			async : true,
+			cache : false
+		});
+
+	}
+</script>
+</html>

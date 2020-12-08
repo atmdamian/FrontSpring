@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/jquery-ui.css">
+<script src="./js/jquery-3.3.1.js"></script>
+</head>
+<body>
+	<form action="login/login" method="post" id="login-form"
+		name="login-form">
+		<h1>INICIA SESSION</h1>
+		<div>
+			<label>Usuario:</label> <input type="text" id="usuario"
+				name="usuario">
+		</div>
+		<div>
+			<label>Contraseña:</label> <input type="password" id="pw" name="pw">
+		</div>
+		<div id="mensajeValidacion"></div>
+		<div>
+
+			<a href="/usuario">¿Deseas Registrarte?</a>
+		</div>
+		<div>
+			<button type="submit">Enviar</button>
+		</div>
+	</form>
+</body>
+<script type="text/javascript">
+	$(function() {
+		$('button[type=submit]').click(
+				function(e) {
+					/* var datos = {
+						   
+							usuario : document.getElementById("usuario").value,
+							pw : document.getElementById("pw").value
+							
+						};*/
+					e.preventDefault();
+
+					//Remove all errors
+					$('input').next().remove();
+					//var xhr = null;		      
+					// Enviar petición
+					//xhr =
+					$.post({
+						//dataType : 'json',
+						//contentType: 'application/json; charset=utf-8',
+						url : "login/login",
+						data : $('form[name=login-form]').serialize(),
+						success : function(data, textStatus, xhr) {
+							if (xhr.status == 200
+									&& xhr.statusText == "success") {
+								setTimeout(function() {
+									window.location.href = xhr.responseText;
+								}, 3000);
+
+							}
+
+						},
+						error : function(data, textStatus, xhr) {
+							if (data.status == 401
+									&& data.statusText == "error") {
+								setTimeout(
+										function() {
+											$("#mensajeValidacion").html(
+													'<p>' + data.responseText
+															+ '</p>');
+										}, 3000);
+							}
+
+						},
+						async : true,
+						cache : false
+					});
+
+					// Cancelar petición
+					//xhr.abort()
+
+				});
+	});
+</script>
+</html>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
 <title>Insert title here</title>
 <link rel="stylesheet" href="/css/bootstrap.min.css">
-<link rel="stylesheet" href="/css/jquery-ui.css">
 <script src="/js/jquery-3.3.1.js"></script>
-</head>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 <body>
 	<div class="container">
 		<div class="jumbotron">
@@ -29,6 +29,23 @@
 								name="pw">
 						</div>
 						<div>
+						<label>Correo:</label>
+						<input type="email" id="correo" name="correo">
+						</div>
+						<div>
+						<label>Masculino</label>
+						<input type="radio" name="genero" value="masculino">
+						<label>Femenino</label>
+						<input type="radio" name="genero" value="femenino">
+						<label>Otros</label>
+						<input type="radio" name="genero" value="otros">
+						</div>
+						<div>
+						<label for="fecha-nacimiento">Fecha Nacimiento</label>
+						<input type="date" id="fecha-nacimiento" name="fecha-nacimiento">
+						</div>
+						<div id="mensaje-validacion"></div>
+						<div>
 							<button type="submit">Enviar</button>
 						</div>
 					</form>
@@ -37,6 +54,30 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<!--button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button-->
+					<!--h4 class="modal-title" id="myModalLabel">Confirmar></h4-->
+					<p id="msj-modal">Mensaje</p>
+				</div>
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-default" id="modal-btn-si">
+						<p id="si">Si</p>
+					</button>
+					<button type="button" onclick="TablaUsuarios();"
+						class="btn btn-primary" id="modal-btn-no">
+						<p id="no">No</p>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </body>
 <script type="text/javascript">
 	$(function() {
@@ -65,7 +106,19 @@
 
 				},
 				error : function(data, textStatus, xhr) {
-					console.log(data);
+					if (data.status == 400 || data.statusText == "error") {
+						setTimeout(function() {
+							$("#mi-modal").modal('show');
+							$("#modal-btn-no").hide();
+							$("#msj-modal").text('A ocurrido un error');
+							$("#si").text('Aceptar');
+							
+							$("#modal-btn-si").on("click", function() {
+								$("#mi-modal").modal('hide');
+							});
+						}, 3000);
+
+					}
 				},
 				async : true,
 				cache : false

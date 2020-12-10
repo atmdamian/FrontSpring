@@ -90,6 +90,9 @@
 
 </body>
 <script type="text/javascript">
+$(document).ready(function() {
+	pintarTabla();
+});
 	$(function() {
 		$('button[type=submit]').click(
 				function(e) {
@@ -157,6 +160,65 @@
 
 				});
 	});
+	
+	function pintarTabla() {
+		
+						//Remove all errors
+						$('input').next().remove();
+						$.get({
+							url : "/api/usuario/obtenerUsuarios",
+							success : function(data) {
+								console.log(data);
+								var dataJSON = data;
+								
+								var tablaUsuario = '';
+								for(var i=0;i<dataJSON.length;i++){
+									tablaUsuario += '<tr>' + '<td>'
+									+ dataJSON[i].id
+									+ '</td>'
+									+'<td>'
+									+ dataJSON[i].nombre
+									+ '</td>'
+									+'<td>'
+									+ dataJSON[i].usuario
+									+ '</td>'
+									+'<td>'
+									+ dataJSON[i].pw
+									+ '</td>'
+									+'<td>'
+									+'<button id ="'+dataJSON[i].id+'"> Eliminar </button>'
+									+ '</td>'
+									+ '</tr>';
+							$("#tableUsuarios tbody").html(tablaUsuario);
+								}
+							
+
+							},
+							error : function(data, textStatus, xhr) {
+							},
+							async : true,
+							cache : false
+						});
+	}
+	
 </script>
+
+<div class="container">
+		<table id="tableUsuarios" class="table table-bordered table-striped">
+			<thead class="thead-light">
+				<tr>
+					<th>ID</th>
+					<th>Nombre</th>
+					<th>usuario</th>
+					<th>pw</th>
+					<th> </th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+		</table>
+	</div>
 
 </html>

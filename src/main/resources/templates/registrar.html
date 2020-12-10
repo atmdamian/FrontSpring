@@ -29,20 +29,27 @@
 								name="pw">
 						</div>
 						<div>
-						<label>Correo:</label>
-						<input type="email" id="correo" name="correo">
+							<label>Correo:</label> <input type="email" id="correo"
+								name="correo">
 						</div>
 						<div>
-						<label>Masculino</label>
-						<input type="radio" name="genero" value="masculino">
-						<label>Femenino</label>
-						<input type="radio" name="genero" value="femenino">
-						<label>Otros</label>
-						<input type="radio" name="genero" value="otros">
+							<label>Masculino</label> <input type="radio" name="genero"
+								value="MASCULINO"> <label>Femenino</label> <input
+								type="radio" name="genero" value="FEMENINO"> <label>Otros</label>
+							<input type="radio" name="genero" value="OTROS">
 						</div>
 						<div>
-						<label for="fecha-nacimiento">Fecha Nacimiento</label>
-						<input type="date" id="fecha-nacimiento" name="fecha-nacimiento">
+							<label for="fecha-nacimiento">Fecha Nacimiento</label> <input
+								type="date" id="fechaNacimiento" name="fechaNacimiento">
+						</div>
+						<div>
+							<select name="pais" id="pais">
+								<option selected="true" disabled="disabled" value="0">SELECCIONA
+									CIUDAD</option>
+								<option value="MEXICO">MÉXICO</option>
+								<option value="MOTERREY">MONTERREY</option>
+								<option value="DURANGO">DURANGO</option>
+							</select>
 						</div>
 						<div id="mensaje-validacion"></div>
 						<div>
@@ -52,12 +59,12 @@
 						
 						<label>data table</label>
 					</form>
-					
-					</div>
+
+				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="modal fade" tabindex="-1" role="dialog"
 		aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
 		<div class="modal-dialog modal-sm">
@@ -80,54 +87,75 @@
 			</div>
 		</div>
 	</div>
-	
+
 </body>
 <script type="text/javascript">
 	$(function() {
-		$('button[type=submit]').click(function(e) {
-			/*var datos = {
-					nombre : document.getElementById("nombre").value,
-					usuario: document.getElementById("usuario").value,
-					pw : document.getElementById("pw").value
-				};*/
+		$('button[type=submit]').click(
+				function(e) {
+					/*var datos = {
+							nombre : document.getElementById("nombre").value,
+							usuario: document.getElementById("usuario").value,
+							pw : document.getElementById("pw").value
+						};*/
 
-			e.preventDefault();
+					e.preventDefault();
 
-			//Remove all errors
-			$('input').next().remove();
+					//Remove all errors
+					$('input').next().remove();
+					console.log($('form[name=form-registro]').serialize());
+					$.post({
+						url : "usuario/agregar",
+						data : $('form[name=form-registro]').serialize(),
+						success : function(data, textStatus, xhr) {
+							if (xhr.status == 200
+									&& xhr.statusText == "success") {
+								setTimeout(function() {
+									window.location.href = "/login";
+								}, 3000);
 
-			$.post({
-				url : "usuario/agregar",
-				data : $('form[name=form-registro]').serialize(),
-				success : function(data, textStatus, xhr) {
-					if (xhr.status == 200 && xhr.statusText == "success") {
-						setTimeout(function() {
-							window.location.href = "/login";
-						}, 3000);
+							}
 
-					}
+						},
+						error : function(data, textStatus, xhr) {
+							if (data.status == 500
+									&& data.statusText == "error") {
+								$("#mi-modal").modal('show');
+								$("#modal-btn-no").hide();
+								$("#msj-modal").text(
+										'Estatus:' + data.status
+												+ " Error del servidor");
+								$("#si").text('Aceptar');
 
-				},
-				error : function(data, textStatus, xhr) {
-					if (data.status == 400 || data.statusText == "error") {
-						setTimeout(function() {
-							$("#mi-modal").modal('show');
-							$("#modal-btn-no").hide();
-							$("#msj-modal").text('A ocurrido un error');
-							$("#si").text('Aceptar');
-							
-							$("#modal-btn-si").on("click", function() {
-								$("#mi-modal").modal('hide');
-							});
-						}, 3000);
+								$("#modal-btn-si").on("click", function() {
+									$("#mi-modal").modal('hide');
+								});
+							}
+							if (data.status == 400
+									&& data.statusText == "error") {
+								setTimeout(
+										function() {
+											$("#mi-modal").modal('show');
+											$("#modal-btn-no").hide();
+											$("#msj-modal").text(
+													'A ocurrido un error');
+											$("#si").text('Aceptar');
 
-					}
-				},
-				async : true,
-				cache : false
-			});
+											$("#modal-btn-si").on(
+													"click",
+													function() {
+														$("#mi-modal").modal(
+																'hide');
+													});
+										}, 3000);
 
-		});
+							}
+						},
+						async : true,
+						cache : false
+					});
+
+				});
 	});
 </script>
 

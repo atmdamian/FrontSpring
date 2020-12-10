@@ -28,6 +28,7 @@ public class UsuarioController {
 
 	@PostMapping(value = "/agregar")
 	public @ResponseBody ResponseEntity<?> agregarUsuario(@ModelAttribute Usuario usuario) {
+		
 		RestTemplate template = new RestTemplate();
 
 		try {

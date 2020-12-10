@@ -42,10 +42,12 @@ public class IndexController {
 				restTemplate.getForObject("http://localhost:8081/api/usuario/byUsuario?usuario=" + login.getUsuario(),
 						String.class),
 				Usuario[].class));
+		
 		if(this.validaUsuario(login, usuarios)) {
 			return new ResponseEntity<String>("/home", HttpStatus.OK);
 		}
-		return new ResponseEntity<String>("LOGIN INCORRECTO", HttpStatus.UNAUTHORIZED);
+		
+		return new ResponseEntity<String>("LOGIN INCORRECTO", HttpStatus.NOT_FOUND);
 
 	}
 	

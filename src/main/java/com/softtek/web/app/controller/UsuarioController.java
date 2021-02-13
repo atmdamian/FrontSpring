@@ -53,7 +53,7 @@ public class UsuarioController {
 		ObjectMapper mapper = new ObjectMapper();
 		RestTemplate rest = new RestTemplate();
 			listaUsuarios = Arrays.asList(mapper.readValue(
-			rest.getForObject("http://localhost:8081/api/usuario/allUsers", String.class), Usuario[].class));
+			rest.getForObject("http://localhost:8081/api/usuario", String.class), Usuario[].class));
 
 		return listaUsuarios;
 	}

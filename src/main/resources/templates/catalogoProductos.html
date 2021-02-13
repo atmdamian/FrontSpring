@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/css/skeleton.css">
+<link rel="stylesheet" href="/css/normalize.css">
+
+
+
+<script src="/js/jquery-3.3.1.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<div id="lista-cursos" class="container">
+		<h1 id="encabezado" class="encabezado">Productos En Línea</h1>
+		<div class="row" id="catalogo-producto">
+			
+
+				
+			</div>
+		</div>
+</body>
+<script type="text/javascript">
+	$(document).ready(function() {
+		pintarProductos();
+	});
+
+	function pintarProductos() {
+
+		//Remove all errors
+		$('input').next().remove();
+		$
+				.get({
+					url : "/api/producto/obtener",
+					success : function(data) {
+						console.log(data);
+						let dataJSON = data;
+
+						let catalogoProducto = '';
+						for (let i = 0; i < dataJSON.length; i++) {
+							catalogoProducto += '<div class="four columns" >'
+								.concat('<div class="card" id="card'+dataJSON[i].id+'" >')
+								.concat('<img class="imagen-curso u-full-width"  id="img'+dataJSON[i].id+'"src="/img/img'+dataJSON[i].id+'.jpg" alt="Card image cap">')
+								.concat('<div class="info-card">')
+								.concat('<h4>'+	dataJSON[i].nombre+'</h4>')
+								.concat('<p>'	+ dataJSON[i].descripcion + '</p>')
+								.concat('<img src="/img/estrellas.png">')
+								.concat('<p class="precio">'+ dataJSON[i].precio+ '</p>')
+								.concat('<a href="#" class="u-full-width button-primary button input agregar-carrito" data-id="'+dataJSON[i].id+'">Agregar Al Carrito</a>')
+								.concat('</div>' + '</div>'+'</div>');
+
+							$("#catalogo-producto").html(catalogoProducto);
+						}
+
+					},
+					error : function(data, textStatus, xhr) {
+					},
+					async : true,
+					cache : false
+				});
+	}
+</script>
+</html>

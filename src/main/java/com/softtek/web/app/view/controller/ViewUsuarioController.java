@@ -1,4 +1,4 @@
-package com.softtek.web.app.controller;
+package com.softtek.web.app.view.controller;
 
 import java.util.Map;
 

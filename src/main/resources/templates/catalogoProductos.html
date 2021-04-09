@@ -15,15 +15,47 @@
 <script src="/js/bootstrap.min.js"></script>
 </head>
 <body>
+	
+	<header id="header" class="header">
+    <div class="container">
+        <div class="row">
+            <div class="four columns">
+                <img src="/img/logo.jpg" id="logo">
+            </div>
+            <div class="two columns u-pull-right">
+                <ul>
+                    <li class="submenu">
+                            <img src="/img/cart.png" id="img-carrito">
+                            <div id="carrito">
+                                    
+                                    <table id="lista-carrito" class="u-full-width">
+                                        <thead>
+                                            <tr>
+                                                <th>Imagen</th>
+                                                <th>Nombre</th>
+                                                <th>Precio</th>
+                                                <th>Cantidad</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
 
+                                    <a href="#" id="vaciar-carrito" class="button u-full-width">Vaciar Carrito</a>
+                            </div>
+                    </li>
+                </ul>
+            </div>
+        </div> 
+    </div>
+    </header>
+	
+	
+	
 	<div id="lista-cursos" class="container">
 		<h1 id="encabezado" class="encabezado">Productos En Línea</h1>
-		<div class="row" id="catalogo-producto">
-			
-
-				
-			</div>
-		</div>
+		<div class="row" id="catalogo-producto"></div>
+	</div>
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -44,15 +76,25 @@
 						let catalogoProducto = '';
 						for (let i = 0; i < dataJSON.length; i++) {
 							catalogoProducto += '<div class="four columns" >'
-								.concat('<div class="card" id="card'+dataJSON[i].id+'" >')
-								.concat('<img class="imagen-curso u-full-width"  id="img'+dataJSON[i].id+'"src="/img/img'+dataJSON[i].id+'.jpg" alt="Card image cap">')
-								.concat('<div class="info-card">')
-								.concat('<h4>'+	dataJSON[i].nombre+'</h4>')
-								.concat('<p>'	+ dataJSON[i].descripcion + '</p>')
-								.concat('<img src="/img/estrellas.png">')
-								.concat('<p class="precio">'+ dataJSON[i].precio+ '</p>')
-								.concat('<a href="#" class="u-full-width button-primary button input agregar-carrito" data-id="'+dataJSON[i].id+'">Agregar Al Carrito</a>')
-								.concat('</div>' + '</div>'+'</div>');
+									.concat(
+											'<div class="card" id="card'+dataJSON[i].id+'" >')
+									.concat(
+											'<img class="imagen-curso u-full-width"  id="img'+dataJSON[i].id+'"src="/img/img'+dataJSON[i].id+'.jpg" alt="Card image cap">')
+									.concat('<div class="info-card">')
+									.concat(
+											'<h4>' + dataJSON[i].nombre
+													+ '</h4>')
+									.concat(
+											'<p>' + dataJSON[i].descripcion
+													+ '</p>')
+									.concat('<img src="/img/estrellas.png">')
+									.concat(
+											'<p class="precio">'
+													+ dataJSON[i].precio
+													+ '</p>')
+									.concat(
+											'<a href="#" class="u-full-width button-primary button input agregar-carrito" data-id="'+dataJSON[i].id+'">Agregar Al Carrito</a>')
+									.concat('</div>' + '</div>' + '</div>');
 
 							$("#catalogo-producto").html(catalogoProducto);
 						}

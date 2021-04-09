@@ -3,10 +3,68 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Raleway:100,300" rel="stylesheet">
+<link rel="stylesheet" href="/css/cssForm/custom.css"> 
+<link type="text/css" rel="stylesheet" href="/css/cssForm/tailwind.min.css"  media="screen,projection"/>    
+ <script src="/js/form/form.js"></script>
+ 
+
 </head>
 <body>
-<h1>Registrar Productos</h1>
-<label>Nombre</label>
-<input type="text" id="nombre">
+	<div class="container mx-auto mt-20 bg-white">
+		<header id="header" class="bg-pink-800 p-3 font-bold">
+			Registrar Nuevo Producto </header>
+
+		<form id="nuevo-producto" class="py-10 px-5 max-w-lg mx-auto">
+			<div class="mb-10">
+				<label for="nombre">Nombre:</label> <input
+					class="bg-gray-100 border shadow p-3 w-full" id="nombre"
+					type="text">
+			</div>
+			<div class="mb-10">
+				<label for="precio">Precio:</label> <input
+					class="bg-gray-100 border shadow p-3 w-full" id="precio"
+					type="text">
+			</div>
+			<div class="mb-10">
+				<label for="imagen">Imagen:</label> <input
+					class="bg-gray-100 border shadow p-3 w-full" id="imagen"
+					type="file">
+			</div>
+			<div class="mb-10">
+				<label for="descripcion">Descripcion;</label>
+				<textarea class="bg-gray-100 border shadow p-3 w-full" id="descripcion"></textarea>
+			</div>
+
+			<div id="spinner">
+				<div class="sk-chase">
+					<div class="sk-chase-dot"></div>
+					<div class="sk-chase-dot"></div>
+					<div class="sk-chase-dot"></div>
+					<div class="sk-chase-dot"></div>
+					<div class="sk-chase-dot"></div>
+					<div class="sk-chase-dot"></div>
+				</div>
+			</div>
+
+			<div class="flex justify-between">
+                    <button 
+                        id="enviar" class="w-full bg-blue-600 px-2 py-5 text-white items-center cursor-not-allowed opacity-50 mr-5 uppercase font-bold items-center flex justify-center" 
+                        type="submit" 
+                    >Enviar
+                        <i class="material-icons right text-white ml-3">send</i>
+                    </button>
+
+                    <button 
+                        id="resetBtn" 
+                        class="w-full bg-green-600 px-2 py-5 text-white items-center uppercase font-bold items-center flex justify-center" 
+                        type="submit"
+                    >Resetear Form
+                            <i class="material-icons right ml-3">delete</i>
+                    </button>
+            </div>
+		</form>
+	</div>
 </body>
 </html>
